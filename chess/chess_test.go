@@ -30,3 +30,12 @@ func TestCountSafeBoards(t *testing.T) {
 		}
 	}
 }
+
+func BenchmarkHeavy(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		CountSafeBoards(
+			board.Size{Rows: 6, Cols: 9},
+			Pieces{King: 2, Queen: 1, Bishop: 1, Rook: 1, Knight: 1},
+		)
+	}
+}

@@ -31,3 +31,15 @@ Count all distinct placements of chess pieces on M×N board where none of the pi
 go generate ./...
 go test ./...
 ```
+
+### Benchmark acceptance test
+
+I benchmarked and optimized the code on my MBP using `go test` and _Activity Monitor_
+
+```
+go test -run XX -bench BenchmarkHeavy -benchmem
+```
+
+| Version       | Time   | Max Mem | Total Mem | Allocs  |
+| :------------ | -----: | ------: | --------: | ------: |
+| First version | 3m 24s | 48.0 MB |   64.0 GB | 1,995 M |
