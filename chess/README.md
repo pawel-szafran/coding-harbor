@@ -24,3 +24,10 @@ Count all distinct placements of chess pieces on M×N board where none of the pi
 
 - Input: 6×9 board with 2 Kings, 1 Queen, 1 Bishop, 1 Rook and 1 Knight
 - Result: 20,136,752
+
+### Test
+
+```
+go generate ./...
+go test ./...
+```
