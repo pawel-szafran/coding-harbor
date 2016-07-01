@@ -1,6 +1,6 @@
 # Chess problem: count safe boards
 
-Count all distinct placements of chess pieces on MxN board where none of the pieces is in a position to capture any other piece. Assume the color of the pieces does not matter.
+Count all distinct placements of chess pieces on M×N board where none of the pieces is in a position to capture any other piece. Assume the color of the piece does not matter.
 
 - Input:
   - board dimensions
@@ -12,15 +12,15 @@ Count all distinct placements of chess pieces on MxN board where none of the pie
 
 ##### Example 1
 
-- Input: 3x3 board with 2 Kings and 1 Rook
+- Input: 3×3 board with 2 Kings and 1 Rook
 - Result: 4
 
 ##### Example 2
 
-- Input: 4x4 board with 2 Rooks and 4 Knights
+- Input: 4×4 board with 2 Rooks and 4 Knights
 - Result: 8
 
 ### Acceptance test
 
-- Input: 6x9 board with 2 Kings, 1 Queen, 1 Bishop, 1 Rook and 1 Knight
+- Input: 6×9 board with 2 Kings, 1 Queen, 1 Bishop, 1 Rook and 1 Knight
 - Result: 20,136,752
