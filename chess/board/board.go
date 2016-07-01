@@ -2,14 +2,14 @@ package board
 
 type (
 	Size struct {
-		Rows, Cols int
+		Rows, Cols int8
 	}
 	Board struct {
 		squares [][]square
 		CurPos  Pos
 	}
 	Pos struct {
-		Row, Col int
+		Row, Col int8
 	}
 	Piece interface {
 		CaptureSquares(b *Board, capture func(ps ...Pos) bool) bool
@@ -41,8 +41,8 @@ func (b *Board) Copy() *Board {
 	return &Board{squares, b.CurPos}
 }
 
-func (b *Board) Rows() int { return len(b.squares) }
-func (b *Board) Cols() int { return len(b.squares[0]) }
+func (b *Board) Rows() int8 { return int8(len(b.squares)) }
+func (b *Board) Cols() int8 { return int8(len(b.squares[0])) }
 
 func (b *Board) checkSquare(p Pos) square {
 	return b.squares[p.Row][p.Col]

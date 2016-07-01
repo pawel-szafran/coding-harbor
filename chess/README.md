@@ -40,6 +40,7 @@ I benchmarked and optimized the code on my MBP using `go test` and _Activity Mon
 go test -run XX -bench BenchmarkHeavy -benchmem
 ```
 
-| Version       | Time   | Max Mem | Total Mem | Allocs  |
-| :------------ | -----: | ------: | --------: | ------: |
-| First version | 3m 24s | 48.0 MB |   64.0 GB | 1,995 M |
+| Versi                        | Time   | Max Mem | Total Mem | Allocs  |
+| :--------------------------- | -----: | ------: | --------: | ------: |
+| First version                | 3m 24s | 48.0 MB |   64.0 GB | 1,995 M |
+| Use `int8` wherever possible | 2m 50s | 33.0 MB |   40.6 GB | 1,995 M |

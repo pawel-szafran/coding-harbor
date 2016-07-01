@@ -76,14 +76,14 @@ const (
 )
 
 func (b testBoard) size() board.Size {
-	return board.Size{Rows: len(b), Cols: len(b[0])}
+	return board.Size{Rows: int8(len(b)), Cols: int8(len(b[0]))}
 }
 
 func (b testBoard) curPos() board.Pos {
 	for r := 0; r < len(b); r++ {
 		for c := 0; c < len(b[0]); c++ {
 			if b[r][c] == P {
-				return board.Pos{Row: r, Col: c}
+				return board.Pos{Row: int8(r), Col: int8(c)}
 			}
 		}
 	}
@@ -95,7 +95,7 @@ func (b testBoard) captured() map[board.Pos]struct{} {
 	for r := 0; r < len(b); r++ {
 		for c := 0; c < len(b[0]); c++ {
 			if b[r][c] == C {
-				captured[board.Pos{Row: r, Col: c}] = struct{}{}
+				captured[board.Pos{Row: int8(r), Col: int8(c)}] = struct{}{}
 			}
 		}
 	}

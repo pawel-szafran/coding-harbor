@@ -3,8 +3,8 @@ package chess
 import "github.com/pawel-szafran/coding-harbor/chess/board"
 
 type (
-	Piece  int
-	Pieces map[Piece]int
+	Piece  int8
+	Pieces map[Piece]int8
 )
 
 //go:generate stringer -type=Piece
@@ -33,14 +33,14 @@ func (p Piece) CaptureSquares(b *board.Board, capture func(ps ...board.Pos) bool
 	row, col := b.CurPos.Row, b.CurPos.Col
 
 	captureRowAndCol := func() bool {
-		for r := 0; r < b.Rows(); r++ {
+		for r := int8(0); r < b.Rows(); r++ {
 			if r != row {
 				if capture(pos(r, col)) {
 					return true
 				}
 			}
 		}
-		for c := 0; c < b.Cols(); c++ {
+		for c := int8(0); c < b.Cols(); c++ {
 			if c != col {
 				if capture(pos(row, c)) {
 					return true
@@ -51,7 +51,7 @@ func (p Piece) CaptureSquares(b *board.Board, capture func(ps ...board.Pos) bool
 	}
 	captureDiagonals := func() bool {
 		offset := col - row
-		for r := 0; r < b.Rows(); r++ {
+		for r := int8(0); r < b.Rows(); r++ {
 			if r != row {
 				width := (row - r) * 2
 				if capture(pos(r, r+offset), pos(r, r+offset+width)) {
@@ -95,6 +95,6 @@ func (p Piece) CaptureSquares(b *board.Board, capture func(ps ...board.Pos) bool
 	return false
 }
 
-func pos(row, col int) board.Pos {
+func pos(row, col int8) board.Pos {
 	return board.Pos{Row: row, Col: col}
 }
