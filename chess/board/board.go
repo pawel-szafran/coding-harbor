@@ -26,16 +26,18 @@ const (
 
 func New(size Size) *Board {
 	squares := make([][]square, size.Rows)
+	allSquares := make([]square, size.Rows*size.Cols)
 	for row := range squares {
-		squares[row] = make([]square, size.Cols)
+		squares[row], allSquares = allSquares[:size.Cols], allSquares[size.Cols:]
 	}
 	return &Board{squares, Pos{0, -1}}
 }
 
 func (b *Board) Copy() *Board {
 	squares := make([][]square, b.Rows())
+	allSquares := make([]square, b.Rows()*b.Cols())
 	for row := range squares {
-		squares[row] = make([]square, b.Cols())
+		squares[row], allSquares = allSquares[:b.Cols()], allSquares[b.Cols():]
 		copy(squares[row], b.squares[row])
 	}
 	return &Board{squares, b.CurPos}

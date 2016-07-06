@@ -1,6 +1,6 @@
 # Chess problem: count safe boards
 
-Count all distinct placements of chess pieces on M×N board where none of the pieces is in a position to capture any other piece. Assume the color of the piece does not matter.
+Count all distinct placements of chess pieces on an M×N board where none of the pieces is in a position to capture any other piece. Assume the color of the piece does not matter.
 
 - Input:
   - board dimensions
@@ -20,27 +20,28 @@ Count all distinct placements of chess pieces on M×N board where none of the pi
 - Input: 4×4 board with 2 Rooks and 4 Knights
 - Result: 8
 
-### Acceptance test
+#### Acceptance test
 
 - Input: 6×9 board with 2 Kings, 1 Queen, 1 Bishop, 1 Rook and 1 Knight
 - Result: 20,136,752
 
-### Test
+### Benchmark
+
+I benchmarked and optimized the code running acceptance test on my MBP using `go test`, `pprof` and _Activity Monitor_:
+
+| Version                      | Time   | Max Mem | Total Mem | Allocs  |
+| :--------------------------- | -----: | ------: | --------: | ------: |
+| Sequential brute force       | 3m 24s | 48.0 MB |   64.0 GB | 1,995 M |
+| Use `int8` wherever possible | 2m 50s | 33.0 MB |   40.6 GB | 1,995 M |
+| Allocate squares in 2 allocs | 2m 18s | 31.3 MB |   37.4 GB | 1,408 M |
+
+#### Cheat sheet
 
 ```
 go generate ./...
 go test ./...
+go test -run=XX -bench=BenchmarkCountSafeBoardsHeavy -benchmem \
+    -cpuprofile=cpu.prof -memprofile=mem.prof
+go tool pprof chess.test cpu.prof
+go tool pprof --alloc_space chess.test mem.prof
 ```
-
-### Benchmark acceptance test
-
-I benchmarked and optimized the code on my MBP using `go test` and _Activity Monitor_
-
-```
-go test -run XX -bench BenchmarkHeavy -benchmem
-```
-
-| Versi                        | Time   | Max Mem | Total Mem | Allocs  |
-| :--------------------------- | -----: | ------: | --------: | ------: |
-| First version                | 3m 24s | 48.0 MB |   64.0 GB | 1,995 M |
-| Use `int8` wherever possible | 2m 50s | 33.0 MB |   40.6 GB | 1,995 M |

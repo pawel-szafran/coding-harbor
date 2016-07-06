@@ -31,7 +31,7 @@ func TestCountSafeBoards(t *testing.T) {
 	}
 }
 
-func BenchmarkHeavy(b *testing.B) {
+func BenchmarkCountSafeBoardsHeavy(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		CountSafeBoards(
 			board.Size{Rows: 6, Cols: 9},
