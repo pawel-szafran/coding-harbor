@@ -5,7 +5,8 @@ type (
 		Rows, Cols int8
 	}
 	Board struct {
-		squares [][]square
+		size    Size
+		squares []byte
 		CurPos  Pos
 	}
 	Pos struct {
@@ -14,7 +15,7 @@ type (
 	Piece interface {
 		CaptureSquares(b *Board, capture func(ps ...Pos) bool) bool
 	}
-	square int8
+	square byte
 )
 
 //go:generate stringer -type=square
@@ -24,39 +25,54 @@ const (
 	capturedSquare
 )
 
+const (
+	bitsPerSquare  = 2
+	squaresPerByte = 8 / bitsPerSquare
+	twoLowBits     = 0x3
+)
+
 func New(size Size) *Board {
-	squares := make([][]square, size.Rows)
-	allSquares := make([]square, size.Rows*size.Cols)
-	for row := range squares {
-		squares[row], allSquares = allSquares[:size.Cols], allSquares[size.Cols:]
+	squaresCount := size.Rows * size.Cols
+	bytesCount := squaresCount / squaresPerByte
+	if squaresCount%squaresPerByte != 0 {
+		bytesCount++
 	}
-	return &Board{squares, Pos{0, -1}}
+	return &Board{
+		size:    size,
+		squares: make([]byte, bytesCount),
+		CurPos:  Pos{0, -1},
+	}
 }
 
 func (b *Board) Copy() *Board {
-	squares := make([][]square, b.Rows())
-	allSquares := make([]square, b.Rows()*b.Cols())
-	for row := range squares {
-		squares[row], allSquares = allSquares[:b.Cols()], allSquares[b.Cols():]
-		copy(squares[row], b.squares[row])
-	}
-	return &Board{squares, b.CurPos}
+	squares := make([]byte, len(b.squares))
+	copy(squares, b.squares)
+	return &Board{b.size, squares, b.CurPos}
 }
 
-func (b *Board) Rows() int8 { return int8(len(b.squares)) }
-func (b *Board) Cols() int8 { return int8(len(b.squares[0])) }
+func (b *Board) Rows() int8 { return b.size.Rows }
+func (b *Board) Cols() int8 { return b.size.Cols }
 
-func (b *Board) checkSquare(p Pos) square {
-	return b.squares[p.Row][p.Col]
+func (b *Board) checkSquare(p Pos, s square) bool {
+	idx, shift := b.findSquare(p)
+	return (b.squares[idx]>>shift)&twoLowBits == byte(s)
 }
 
 func (b *Board) setSquare(p Pos, s square) {
-	b.squares[p.Row][p.Col] = s
+	idx, shift := b.findSquare(p)
+	b.squares[idx] |= byte(s) << shift
+}
+
+func (b *Board) findSquare(p Pos) (idx int8, shift uint8) {
+	squareIdx := p.Row*b.size.Cols + p.Col
+	idx = squareIdx / squaresPerByte
+	shift = uint8((squareIdx % squaresPerByte) * bitsPerSquare)
+	return
 }
 
 func (b *Board) MoveToNextSafeSquare() bool {
 	for b.moveToNextSquare() {
-		if b.checkSquare(b.CurPos) == safeSquare {
+		if b.checkSquare(b.CurPos, safeSquare) {
 			return true
 		}
 	}
@@ -81,7 +97,7 @@ func (b *Board) PlacePiece(piece Piece) bool {
 	captured := piece.CaptureSquares(b, func(ps ...Pos) bool {
 		for _, pos := range ps {
 			if b.contains(pos) {
-				if b.checkSquare(pos) == squareWithPiece {
+				if b.checkSquare(pos, squareWithPiece) {
 					return true
 				}
 				b.setSquare(pos, capturedSquare)

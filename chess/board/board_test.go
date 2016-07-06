@@ -142,10 +142,9 @@ func assertBoardWithDesc(t *testing.T, comment string, b *Board, want wantBoard)
 	}
 	for row := int8(0); row < b.Rows(); row++ {
 		for col := int8(0); col < b.Cols(); col++ {
-			gotSquare, wantSquare := b.checkSquare(Pos{row, col}), want.squares[row][col]
-			if gotSquare != wantSquare {
-				t.Errorf("%sWant square at [%d,%d] to be %s, not %s",
-					comment, row, col, wantSquare, gotSquare)
+			wantSquare := want.squares[row][col]
+			if !b.checkSquare(Pos{row, col}, wantSquare) {
+				t.Errorf("%sWant square at [%d,%d] to be %s", comment, row, col, wantSquare)
 			}
 		}
 	}

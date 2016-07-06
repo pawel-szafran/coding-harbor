@@ -32,10 +32,16 @@ func TestCountSafeBoards(t *testing.T) {
 }
 
 func BenchmarkCountSafeBoardsHeavy(b *testing.B) {
+	var count int
+	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		CountSafeBoards(
+		count = CountSafeBoards(
 			board.Size{Rows: 6, Cols: 9},
 			Pieces{King: 2, Queen: 1, Bishop: 1, Rook: 1, Knight: 1},
 		)
+	}
+	b.StopTimer()
+	if wantCount := 20136752; count != wantCount {
+		b.Errorf("Want %d, got %d", wantCount, count)
 	}
 }
