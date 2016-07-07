@@ -47,10 +47,17 @@ func (ps pieces) copyRemovingOne(p Piece) pieces {
 	return psCopy
 }
 
-func (p Piece) CaptureSquares(b *board.Board, capture func(ps ...board.Pos) bool) bool {
+func (p Piece) CaptureSquares(b *board.Board, capture func(board.Pos) bool) bool {
 
 	row, col := b.CurPos.Row, b.CurPos.Col
 
+	validateAndCapture := func(pos board.Pos) bool {
+		if pos.Row < 0 || pos.Row >= b.Rows() ||
+			pos.Col < 0 || pos.Col >= b.Cols() {
+			return false
+		}
+		return capture(pos)
+	}
 	captureRowAndCol := func() bool {
 		for r := int8(0); r < b.Rows(); r++ {
 			if r != row {
@@ -73,7 +80,8 @@ func (p Piece) CaptureSquares(b *board.Board, capture func(ps ...board.Pos) bool
 		for r := int8(0); r < b.Rows(); r++ {
 			if r != row {
 				width := (row - r) * 2
-				if capture(pos(r, r+offset), pos(r, r+offset+width)) {
+				if validateAndCapture(pos(r, r+offset)) ||
+					validateAndCapture(pos(r, r+offset+width)) {
 					return true
 				}
 			}
@@ -89,27 +97,23 @@ func (p Piece) CaptureSquares(b *board.Board, capture func(ps ...board.Pos) bool
 	case Queen:
 		return captureRowAndCol() || captureDiagonals()
 	case King:
-		return capture(
-			pos(row-1, col),
-			pos(row+1, col),
-			pos(row, col-1),
-			pos(row, col+1),
-			pos(row-1, col-1),
-			pos(row-1, col+1),
-			pos(row+1, col+1),
-			pos(row+1, col-1),
-		)
+		return validateAndCapture(pos(row-1, col)) ||
+			validateAndCapture(pos(row+1, col)) ||
+			validateAndCapture(pos(row, col-1)) ||
+			validateAndCapture(pos(row, col+1)) ||
+			validateAndCapture(pos(row-1, col-1)) ||
+			validateAndCapture(pos(row-1, col+1)) ||
+			validateAndCapture(pos(row+1, col+1)) ||
+			validateAndCapture(pos(row+1, col-1))
 	case Knight:
-		return capture(
-			pos(row-2, col-1),
-			pos(row-2, col+1),
-			pos(row+2, col-1),
-			pos(row+2, col+1),
-			pos(row-1, col+2),
-			pos(row+1, col+2),
-			pos(row-1, col-2),
-			pos(row+1, col-2),
-		)
+		return validateAndCapture(pos(row-2, col-1)) ||
+			validateAndCapture(pos(row-2, col+1)) ||
+			validateAndCapture(pos(row+2, col-1)) ||
+			validateAndCapture(pos(row+2, col+1)) ||
+			validateAndCapture(pos(row-1, col+2)) ||
+			validateAndCapture(pos(row+1, col+2)) ||
+			validateAndCapture(pos(row-1, col-2)) ||
+			validateAndCapture(pos(row+1, col-2))
 	}
 	return false
 }

@@ -13,7 +13,7 @@ type (
 		Row, Col int8
 	}
 	Piece interface {
-		CaptureSquares(b *Board, capture func(ps ...Pos) bool) bool
+		CaptureSquares(b *Board, capture func(Pos) bool) bool
 	}
 	square byte
 )
@@ -64,23 +64,14 @@ func (b *Board) moveToNextSquare() bool {
 
 func (b *Board) PlacePiece(piece Piece) bool {
 	b.setSquare(b.CurPos, squareWithPiece)
-	captured := piece.CaptureSquares(b, func(ps ...Pos) bool {
-		for _, pos := range ps {
-			if b.contains(pos) {
-				if b.checkSquare(pos, squareWithPiece) {
-					return true
-				}
-				b.setSquare(pos, capturedSquare)
-			}
+	captured := piece.CaptureSquares(b, func(pos Pos) bool {
+		if b.checkSquare(pos, squareWithPiece) {
+			return true
 		}
+		b.setSquare(pos, capturedSquare)
 		return false
 	})
 	return !captured
-}
-
-func (b *Board) contains(p Pos) bool {
-	return p.Row >= 0 && p.Row < b.Rows() &&
-		p.Col >= 0 && p.Col < b.Cols()
 }
 
 const (

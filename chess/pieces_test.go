@@ -7,10 +7,7 @@ import (
 	"github.com/pawel-szafran/coding-harbor/chess/board"
 )
 
-var captureSquaresTests = []struct {
-	piece Piece
-	board testBoard
-}{
+var captureSquaresTests = []captureTest{
 	{King, testBoard{
 		{0, 0, 0, 0, 0, 0},
 		{0, 0, C, C, C, 0},
@@ -18,19 +15,19 @@ var captureSquaresTests = []struct {
 		{0, 0, C, C, C, 0},
 		{0, 0, 0, 0, 0, 0},
 	}},
-	{Rook, testBoard{
-		{0, 0, 0, C, 0, 0},
-		{0, 0, 0, C, 0, 0},
-		{C, C, C, P, C, C},
-		{0, 0, 0, C, 0, 0},
-		{0, 0, 0, C, 0, 0},
-	}},
 	{Knight, testBoard{
 		{0, 0, C, 0, C, 0},
 		{0, C, 0, 0, 0, C},
 		{0, 0, 0, P, 0, 0},
 		{0, C, 0, 0, 0, C},
 		{0, 0, C, 0, C, 0},
+	}},
+	{Rook, testBoard{
+		{0, 0, 0, C, 0, 0},
+		{0, 0, 0, C, 0, 0},
+		{C, C, C, P, C, C},
+		{0, 0, 0, C, 0, 0},
+		{0, 0, 0, C, 0, 0},
 	}},
 	{Queen, testBoard{
 		{0, C, 0, C, 0, C},
@@ -48,15 +45,54 @@ var captureSquaresTests = []struct {
 	}},
 }
 
+var captureSquaresOnEdgesTests = []captureTest{
+	{King, testBoard{
+		{P, C, 0},
+		{C, C, 0},
+		{0, 0, 0},
+	}},
+	{Knight, testBoard{
+		{0, 0, 0, C},
+		{0, P, 0, 0},
+		{0, 0, 0, C},
+		{C, 0, C, 0},
+	}},
+	{Queen, testBoard{
+		{0, C, 0, C, 0, C},
+		{0, 0, C, C, C, 0},
+		{C, C, C, P, C, C},
+		{0, 0, C, C, C, 0},
+		{0, C, 0, C, 0, C},
+	}},
+	{Queen, testBoard{
+		{C, C, 0},
+		{P, C, C},
+		{C, C, 0},
+		{C, 0, C},
+	}},
+	{Bishop, testBoard{
+		{C, 0, 0},
+		{0, C, 0},
+		{0, 0, P},
+		{0, C, 0},
+	}},
+}
+
 func TestCaptureSquares(t *testing.T) {
-	for _, tt := range captureSquaresTests {
+	testCaptureSquares(t, captureSquaresTests)
+}
+
+func TestCaptureSquaresOnEdges(t *testing.T) {
+	testCaptureSquares(t, captureSquaresOnEdgesTests)
+}
+
+func testCaptureSquares(t *testing.T, tests []captureTest) {
+	for _, tt := range tests {
 		b := board.New(tt.board.size())
 		b.CurPos = tt.board.curPos()
 		captured := make(map[board.Pos]struct{})
-		tt.piece.CaptureSquares(b, func(ps ...board.Pos) bool {
-			for _, p := range ps {
-				captured[p] = struct{}{}
-			}
+		tt.piece.CaptureSquares(b, func(pos board.Pos) bool {
+			captured[pos] = struct{}{}
 			return false
 		})
 		if !reflect.DeepEqual(captured, tt.board.captured()) {
@@ -66,6 +102,10 @@ func TestCaptureSquares(t *testing.T) {
 }
 
 type (
+	captureTest struct {
+		piece Piece
+		board testBoard
+	}
 	testBoard [][]square
 	square    int8
 )

@@ -90,7 +90,7 @@ func TestPlacePieceOk(t *testing.T) {
 	b := New(Size{2, 3})
 	b.CurPos = Pos{0, 1}
 	b.setSquare(Pos{0, 2}, capturedSquare)
-	p := testPiece{captureSquares: []Pos{{0, 2}, {1, 1}, {-1, 1}, {0, -1}}}
+	p := testPiece{captureSquares: []Pos{{0, 2}, {1, 1}}}
 	if !b.PlacePiece(p) {
 		t.Errorf("Doesn't place")
 	}
@@ -117,8 +117,12 @@ type testPiece struct {
 	captureSquares []Pos
 }
 
-func (p testPiece) CaptureSquares(b *Board, capture func(ps ...Pos) bool) bool {
-	return capture(p.captureSquares...)
+func (p testPiece) CaptureSquares(b *Board, capture func(Pos) bool) bool {
+	captured := false
+	for _, pos := range p.captureSquares {
+		captured = captured || capture(pos)
+	}
+	return captured
 }
 
 type wantBoard struct {
