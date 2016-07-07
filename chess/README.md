@@ -35,6 +35,7 @@ I benchmarked and optimized the code running acceptance test on my MBP using `go
 | Use `int8` wherever possible | 2m 50s | 33.0 MB |   40.6 GB | 1,995 M |
 | Allocate squares in 2 allocs | 2m 18s | 31.3 MB |   37.4 GB | 1,408 M |
 | Use 2 bits per square        | 1m 43s | 19.4 MB |   16.6 GB | 1,291 M |
+| Use [5]int8 to store pieces  | 1m 05s | 14.0 MB |   11.6 GB | 1,151 M |
 
 #### Cheat sheet
 

@@ -5,6 +5,7 @@ import "github.com/pawel-szafran/coding-harbor/chess/board"
 type (
 	Piece  int8
 	Pieces map[Piece]int8
+	pieces [5]int8
 )
 
 //go:generate stringer -type=Piece
@@ -16,16 +17,34 @@ const (
 	Bishop
 )
 
-func (ps Pieces) copyRemovingOne(p Piece) Pieces {
-	newPs := make(Pieces)
-	for k, v := range ps {
-		newPs[k] = v
+func (ps Pieces) compact() (pieces pieces) {
+	for p, n := range ps {
+		pieces[p] = n
 	}
-	newPs[p]--
-	if newPs[p] == 0 {
-		delete(newPs, p)
+	return
+}
+
+func (ps pieces) areEmpty() bool {
+	for _, n := range ps {
+		if n > 0 {
+			return false
+		}
 	}
-	return newPs
+	return true
+}
+
+func (ps pieces) forEachType(op func(p Piece)) {
+	for p, n := range ps {
+		if n > 0 {
+			op(Piece(p))
+		}
+	}
+}
+
+func (ps pieces) copyRemovingOne(p Piece) pieces {
+	psCopy := ps
+	psCopy[p]--
+	return psCopy
 }
 
 func (p Piece) CaptureSquares(b *board.Board, capture func(ps ...board.Pos) bool) bool {
