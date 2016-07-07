@@ -37,6 +37,7 @@ I benchmarked and optimized the code running acceptance test on my MBP using `go
 | Use 2 bits per square         | 1m 43s | 19.4 MB |   16.6 GB | 1,291 M |
 | Use `[5]int8` to store pieces | 1m 05s | 14.0 MB |   11.6 GB | 1,151 M |
 | Optimize `PlacePiece()`       |    49s | 12.5 MB |    9.4 GB |   469 M |
+| Use Board Pool                |    33s |  9.0 MB |    2.0 GB |   235 M |
 
 #### Cheat sheet
 
