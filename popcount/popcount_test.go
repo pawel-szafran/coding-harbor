@@ -9,6 +9,7 @@ func TestCountMapLookup8(t *testing.T)    { testCount(t, CountMapLookup8) }
 func TestCountMapLookup16(t *testing.T)   { testCount(t, CountMapLookup16) }
 func TestCountTableLookup8(t *testing.T)  { testCount(t, CountTableLookup8) }
 func TestCountTableLookup16(t *testing.T) { testCount(t, CountTableLookup16) }
+func TestCountParallelNaive(t *testing.T) { testCount(t, CountParallelNaive) }
 
 func testCount(t *testing.T, count CountFunc) {
 	tests := []struct {

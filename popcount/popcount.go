@@ -99,4 +99,20 @@ var (
 			return count16[v&m16] + count16[(v>>16)&m16]
 		}
 	}()
+
+	CountParallelNaive = func(v uint32) uint32 {
+		const (
+			m1  = 0x55555555
+			m2  = 0x33333333
+			m4  = 0x0f0f0f0f
+			m8  = 0x00ff00ff
+			m16 = 0x0000ffff
+		)
+		v = (v & m1) + ((v >> 1) & m1)
+		v = (v & m2) + ((v >> 2) & m2)
+		v = (v & m4) + ((v >> 4) & m4)
+		v = (v & m8) + ((v >> 8) & m8)
+		v = (v & m16) + ((v >> 16) & m16)
+		return v
+	}
 )
