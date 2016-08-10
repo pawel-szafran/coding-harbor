@@ -38,19 +38,32 @@ var (
 
 	CountMapLookup8 = func() CountFunc {
 
-		const m8 = 0xff
-
 		count8 := make(map[uint32]uint32)
 		count8[0] = 0
-		for i := uint32(1); i < 256; i++ {
+		for i := uint32(1); i < 1<<8; i++ {
 			count8[i] = i&0x1 + count8[i>>1]
 		}
 
 		return func(v uint32) (c uint32) {
+			const m8 = 0xff
 			return count8[v&m8] +
 				count8[(v>>8)&m8] +
 				count8[(v>>16)&m8] +
 				count8[(v>>24)&m8]
+		}
+	}()
+
+	CountMapLookup16 = func() CountFunc {
+
+		count16 := make(map[uint32]uint32)
+		count16[0] = 0
+		for i := uint32(1); i < 1<<16; i++ {
+			count16[i] = i&0x1 + count16[i>>1]
+		}
+
+		return func(v uint32) (c uint32) {
+			const m16 = 0xffff
+			return count16[v&m16] + count16[(v>>16)&m16]
 		}
 	}()
 )

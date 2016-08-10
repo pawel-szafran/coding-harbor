@@ -9,6 +9,7 @@ func BenchmarkCountTotallyNaive(b *testing.B) { benchmarkCount(b, CountTotallyNa
 func BenchmarkCountNaive(b *testing.B)        { benchmarkCount(b, CountNaive) }
 func BenchmarkCountKernighan(b *testing.B)    { benchmarkCount(b, CountKernighan) }
 func BenchmarkCountMapLookup8(b *testing.B)   { benchmarkCount(b, CountMapLookup8) }
+func BenchmarkCountMapLookup16(b *testing.B)  { benchmarkCount(b, CountMapLookup16) }
 
 func benchmarkCount(b *testing.B, count CountFunc) {
 	values := randomValues(1e5)
