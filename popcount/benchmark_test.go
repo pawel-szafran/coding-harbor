@@ -5,10 +5,13 @@ import (
 	"testing"
 )
 
-func BenchmarkCountNaive(b *testing.B) {
+func BenchmarkCountTotallyNaive(b *testing.B) { benchmarkCount(b, CountTotallyNaive) }
+func BenchmarkCountNaive(b *testing.B)        { benchmarkCount(b, CountNaive) }
+
+func benchmarkCount(b *testing.B, count CountFunc) {
 	values := randomValues(1e5)
 	for i := 0; i < b.N; i++ {
-		CountSlice(values, CountNaive)
+		CountSlice(values, count)
 	}
 }
 

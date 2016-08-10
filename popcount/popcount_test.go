@@ -2,7 +2,10 @@ package popcount
 
 import "testing"
 
-func TestCountNaive(t *testing.T) {
+func TestCountTotallyNaive(t *testing.T) { testCount(t, CountTotallyNaive) }
+func TestCountNaive(t *testing.T)        { testCount(t, CountNaive) }
+
+func testCount(t *testing.T, count CountFunc) {
 	tests := []struct {
 		x, c uint32
 	}{
@@ -11,7 +14,7 @@ func TestCountNaive(t *testing.T) {
 		{0x13579bdf, 20},
 	}
 	for _, tt := range tests {
-		c := CountNaive(tt.x)
+		c := count(tt.x)
 		assertCount(t, c, tt.c)
 	}
 }
