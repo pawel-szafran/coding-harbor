@@ -19,6 +19,13 @@ var (
 		}
 		return
 	}
+	CountKernighan = func(v uint32) (c uint32) {
+		for v > 0 {
+			c++
+			v &= v - 1
+		}
+		return
+	}
 )
 
 func CountSlice(values []uint32, count CountFunc) (c uint32) {
