@@ -5,6 +5,7 @@ import "testing"
 func TestCountTotallyNaive(t *testing.T) { testCount(t, CountTotallyNaive) }
 func TestCountNaive(t *testing.T)        { testCount(t, CountNaive) }
 func TestCountKernighan(t *testing.T)    { testCount(t, CountKernighan) }
+func TestCountMapLookup8(t *testing.T)   { testCount(t, CountMapLookup8) }
 
 func testCount(t *testing.T, count CountFunc) {
 	tests := []struct {
