@@ -5,11 +5,13 @@ import (
 	"testing"
 )
 
-func BenchmarkCountTotallyNaive(b *testing.B) { benchmarkCount(b, CountTotallyNaive) }
-func BenchmarkCountNaive(b *testing.B)        { benchmarkCount(b, CountNaive) }
-func BenchmarkCountKernighan(b *testing.B)    { benchmarkCount(b, CountKernighan) }
-func BenchmarkCountMapLookup8(b *testing.B)   { benchmarkCount(b, CountMapLookup8) }
-func BenchmarkCountMapLookup16(b *testing.B)  { benchmarkCount(b, CountMapLookup16) }
+func BenchmarkCountTotallyNaive(b *testing.B)  { benchmarkCount(b, CountTotallyNaive) }
+func BenchmarkCountNaive(b *testing.B)         { benchmarkCount(b, CountNaive) }
+func BenchmarkCountKernighan(b *testing.B)     { benchmarkCount(b, CountKernighan) }
+func BenchmarkCountMapLookup8(b *testing.B)    { benchmarkCount(b, CountMapLookup8) }
+func BenchmarkCountMapLookup16(b *testing.B)   { benchmarkCount(b, CountMapLookup16) }
+func BenchmarkCountTableLookup8(b *testing.B)  { benchmarkCount(b, CountTableLookup8) }
+func BenchmarkCountTableLookup16(b *testing.B) { benchmarkCount(b, CountTableLookup16) }
 
 func benchmarkCount(b *testing.B, count CountFunc) {
 	values := randomValues(1e5)
