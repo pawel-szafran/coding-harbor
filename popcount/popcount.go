@@ -115,4 +115,15 @@ var (
 		v = (v & m16) + ((v >> 16) & m16)
 		return v
 	}
+
+	CountParallelSmart = func(v uint32) uint32 {
+		const (
+			m1 = 0x55555555
+			m2 = 0x33333333
+			m4 = 0x0f0f0f0f
+		)
+		v -= ((v >> 1) & m1)
+		v = (v & m2) + ((v >> 2) & m2)
+		return ((v + (v >> 4)) & m4) * 0x01010101 >> 24
+	}
 )

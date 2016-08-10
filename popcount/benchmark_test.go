@@ -13,6 +13,7 @@ func BenchmarkCountMapLookup16(b *testing.B)   { benchmarkCount(b, CountMapLooku
 func BenchmarkCountTableLookup8(b *testing.B)  { benchmarkCount(b, CountTableLookup8) }
 func BenchmarkCountTableLookup16(b *testing.B) { benchmarkCount(b, CountTableLookup16) }
 func BenchmarkCountParallelNaive(b *testing.B) { benchmarkCount(b, CountParallelNaive) }
+func BenchmarkCountParallelSmart(b *testing.B) { benchmarkCount(b, CountParallelSmart) }
 
 func benchmarkCount(b *testing.B, count CountFunc) {
 	values := randomValues(1e5)
