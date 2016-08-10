@@ -126,4 +126,18 @@ var (
 		v = (v & m2) + ((v >> 2) & m2)
 		return ((v + (v >> 4)) & m4) * 0x01010101 >> 24
 	}
+
+	CountParallelSmartNoMul = func(v uint32) uint32 {
+		const (
+			m1 = 0x55555555
+			m2 = 0x33333333
+			m4 = 0x0f0f0f0f
+		)
+		v -= ((v >> 1) & m1)
+		v = (v & m2) + ((v >> 2) & m2)
+		v = (v + (v >> 4)) & m4
+		v = v + (v >> 8)
+		v = v + (v >> 16)
+		return v & 0x3f
+	}
 )
