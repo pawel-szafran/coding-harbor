@@ -1,0 +1,9 @@
+box: golang:1.7.1
+
+build:
+  steps:
+    - setup-go-workspace:
+        package-dir: github.com/pawel-szafran/coding-harbor
+    - script:
+        name: go test
+        code: go test ./...
