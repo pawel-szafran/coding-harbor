@@ -2,16 +2,29 @@ package popcount
 
 import "testing"
 
-func TestCountTotallyNaive(t *testing.T)       { testCount(t, CountTotallyNaive) }
-func TestCountNaive(t *testing.T)              { testCount(t, CountNaive) }
-func TestCountKernighan(t *testing.T)          { testCount(t, CountKernighan) }
-func TestCountMapLookup8(t *testing.T)         { testCount(t, CountMapLookup8) }
-func TestCountMapLookup16(t *testing.T)        { testCount(t, CountMapLookup16) }
-func TestCountTableLookup8(t *testing.T)       { testCount(t, CountTableLookup8) }
-func TestCountTableLookup16(t *testing.T)      { testCount(t, CountTableLookup16) }
-func TestCountParallelNaive(t *testing.T)      { testCount(t, CountParallelNaive) }
-func TestCountParallelSmart(t *testing.T)      { testCount(t, CountParallelSmart) }
-func TestCountParallelSmartNoMul(t *testing.T) { testCount(t, CountParallelSmartNoMul) }
+var algos = []struct {
+	name  string
+	count CountFunc
+}{
+	{"TotallyNaive", CountTotallyNaive},
+	{"Naive", CountNaive},
+	{"Kernighan", CountKernighan},
+	{"MapLookup8", CountMapLookup8},
+	{"MapLookup16", CountMapLookup16},
+	{"TableLookup8", CountTableLookup8},
+	{"TableLookup16", CountTableLookup16},
+	{"ParallelNaive", CountParallelNaive},
+	{"ParallelSmart", CountParallelSmart},
+	{"ParallelSmartNoMul", CountParallelSmartNoMul},
+}
+
+func TestCount(t *testing.T) {
+	for _, algo := range algos {
+		t.Run(algo.name, func(t *testing.T) {
+			testCount(t, algo.count)
+		})
+	}
+}
 
 func testCount(t *testing.T, count CountFunc) {
 	tests := []struct {
@@ -21,9 +34,9 @@ func testCount(t *testing.T, count CountFunc) {
 		{0x02468ace, 12},
 		{0x13579bdf, 20},
 	}
-	for _, tt := range tests {
-		c := count(tt.x)
-		assertCount(t, c, tt.c)
+	for _, tc := range tests {
+		c := count(tc.x)
+		assertCount(t, c, tc.c)
 	}
 }
 
