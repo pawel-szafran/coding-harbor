@@ -6,3 +6,4 @@ Collection of coding dojos/programming exercises from _Coding Harbor_ meetup, wh
 
 - [Chess problem: count safe boards](chess)
 - [Count set bits (popcount)](popcount)
+- [Find partitions in a graph](partitions)
