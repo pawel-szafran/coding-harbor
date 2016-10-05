@@ -1,14 +1,16 @@
 package partitions
 
-type Node int
-type Edge struct {
-	From, To Node
-}
-type Graph struct {
-	Nodes []Node
-	Edges []Edge
-}
-type Partition []Node
+type (
+	Node int
+	Edge struct {
+		From, To Node
+	}
+	Graph struct {
+		Nodes []Node
+		Edges []Edge
+	}
+	Partition []Node
+)
 
 func FindPartitions(graph Graph) []Partition {
 	return newPartitionFinder(graph).findAll()
