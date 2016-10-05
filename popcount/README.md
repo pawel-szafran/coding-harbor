@@ -2,7 +2,7 @@
 
 Count set bits of 100k 32-bit integers. And benchmark it.
 
-#### Algorithms
+### Algorithms
 
 - Naive
 - Brian Kernighan's
@@ -10,7 +10,7 @@ Count set bits of 100k 32-bit integers. And benchmark it.
 - Table lookup
 - Parallel
 
-#### Benchmark
+### Benchmark
 
 ```
 go test -bench=.
