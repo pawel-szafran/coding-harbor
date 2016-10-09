@@ -11,25 +11,25 @@ func FindMissingInt(nums []int) int {
 }
 
 type intRange struct {
-	Min, Max int
+	min, max int
 }
 
 func newIntRange(start int) *intRange {
-	return &intRange{Min: start, Max: start}
+	return &intRange{min: start, max: start}
 }
 
 func (r *intRange) update(n int) {
 	switch {
-	case n < r.Min:
-		r.Min = n
-	case n > r.Max:
-		r.Max = n
+	case n < r.min:
+		r.min = n
+	case n > r.max:
+		r.max = n
 	}
 }
 
 func (r *intRange) xor() (xor int) {
-	for i := r.Max; i >= r.Min; i-- {
-		xor ^= i
+	for n := r.max; n >= r.min; n-- {
+		xor ^= n
 	}
 	return
 }
