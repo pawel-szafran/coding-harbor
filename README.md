@@ -5,5 +5,6 @@
 Collection of coding dojos/programming exercises from _Coding Harbor_ meetup, which I co-started at UBS Lincoln Harbor office. Most of them in Go!
 
 - [Chess problem: count safe boards](chess)
-- [Count set bits (popcount)](popcount)
 - [Find partitions in a graph](partitions)
+- [Count set bits (popcount)](popcount)
+- [Find missing int in array of ints](missingint)
