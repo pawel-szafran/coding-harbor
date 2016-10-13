@@ -2,7 +2,7 @@
 
 ### Example
 
-Array `{3, 6, 1, 5, 2}` is missing number `4`
+Array `[3, 6, 1, 5, 2]` is missing number `4`
 
 ### Solution
 
