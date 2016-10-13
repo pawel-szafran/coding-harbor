@@ -10,3 +10,4 @@ Collection of coding dojos/programming exercises from _Coding Harbor_ meetup, wh
 - [Count set bits (popcount)](popcount)
 - [Find build order in a multi-module project](buildorder)
 - [Find missing int in array of ints](missingint)
+- [Find max subarray](maxsubarray)
