@@ -7,6 +7,7 @@ Collection of coding dojos/programming exercises from _Coding Harbor_ meetup, wh
 - [Chess problem: count safe boards](chess)
 - [Find partitions in a graph](partitions)
 - [Calculate the amount of rain water between towers](waterbetweentowers)
+- [Count islands](islands)
 - [Count set bits (popcount)](popcount)
 - [Find build order in a multi-module project](buildorder)
 - [Find missing int in array of ints](missingint)
